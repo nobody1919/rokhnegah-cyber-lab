@@ -12,6 +12,7 @@ import Dashboard from "./pages/Dashboard";
 import Labs from "./pages/Labs";
 import LabDetail from "./pages/LabDetail";
 import Leaderboard from "./pages/Leaderboard";
+import AdminLogin from "./pages/AdminLogin";
 import AdminPanel from "./pages/AdminPanel";
 import AdminUsers from "./pages/AdminUsers";
 import AdminLabs from "./pages/AdminLabs";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/labs/:categoryId" element={<Labs />} />
             <Route path="/lab/:labId" element={<ProtectedRoute><LabDetail /></ProtectedRoute>} />
             <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
             <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
             <Route path="/admin/labs" element={<AdminRoute><AdminLabs /></AdminRoute>} />
