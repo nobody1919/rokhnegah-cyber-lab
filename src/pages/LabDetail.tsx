@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Flag, Lightbulb, Eye, EyeOff, Play, CheckCircle2, XCircle } from "lucide-react";
+import LabEnvironment from "@/components/LabEnvironment";
 
 interface Lab {
   id: string;
@@ -258,6 +259,16 @@ export default function LabDetail() {
               </div>
             )}
           </div>
+
+          {/* Lab Environment - Interactive Simulation */}
+          {instance && !isCompleted && (
+            <div className="mb-4">
+              <LabEnvironment
+                labType={lab.lab_type}
+                onFlagFound={(flag) => setFlagInput(flag)}
+              />
+            </div>
+          )}
 
           {/* Hint */}
           {lab.hint && (
