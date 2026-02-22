@@ -1,7 +1,12 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Shield, Terminal, Bug, FlaskConical, ChevronRight, User, Mail, Github, Globe, Code, Search, Skull, Zap, Lock, Database } from "lucide-react";
+import { Shield, Terminal, Bug, FlaskConical, ChevronRight, User, Mail, Github, Globe, Code, Search, Skull, Zap, Lock, Database, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 
 const features = [
@@ -33,6 +38,121 @@ const scaleIn = {
   hidden: { opacity: 0, scale: 0.9 },
   visible: { opacity: 1, scale: 1, transition: { duration: 0.5, ease: "easeOut" as const } },
 };
+
+function ContactSection() {
+  const { toast } = useToast();
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+      toast({ title: "Please fill all fields", variant: "destructive" });
+      return;
+    }
+    setSending(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: form.name.trim().slice(0, 100),
+      email: form.email.trim().slice(0, 255),
+      message: form.message.trim().slice(0, 1000),
+    });
+    setSending(false);
+    if (error) {
+      toast({ title: "Failed to send message", variant: "destructive" });
+    } else {
+      toast({ title: "Message sent successfully! ✅" });
+      setForm({ name: "", email: "", message: "" });
+    }
+  };
+
+  return (
+    <section id="contact" className="border-t border-border/50 py-20 bg-secondary/20 particle-bg">
+      <div className="container mx-auto px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mx-auto max-w-2xl"
+        >
+          <h2 className="text-center text-3xl font-black mb-2 text-foreground">
+            <span className="shimmer-text font-mono">Contact</span> Us
+          </h2>
+          <p className="text-center text-muted-foreground mb-10">Questions, suggestions, or collaboration? Get in touch.</p>
+
+          <form onSubmit={handleSubmit} className="cyber-card p-6 space-y-4 mb-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div>
+                <label className="text-xs text-muted-foreground font-mono mb-1 block">Name</label>
+                <Input
+                  value={form.name}
+                  onChange={(e) => setForm((p) => ({ ...p, name: e.target.value }))}
+                  placeholder="Your name"
+                  maxLength={100}
+                  className="bg-secondary/50 border-border/50"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground font-mono mb-1 block">Email</label>
+                <Input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => setForm((p) => ({ ...p, email: e.target.value }))}
+                  placeholder="your@email.com"
+                  maxLength={255}
+                  className="bg-secondary/50 border-border/50"
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground font-mono mb-1 block">Message</label>
+              <Textarea
+                value={form.message}
+                onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
+                placeholder="Your message..."
+                maxLength={1000}
+                rows={4}
+                className="bg-secondary/50 border-border/50"
+              />
+            </div>
+            <Button type="submit" disabled={sending} className="w-full glow-primary gap-2">
+              {sending ? "Sending..." : <>Send Message <Send className="h-4 w-4" /></>}
+            </Button>
+          </form>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            <motion.a
+              href="mailto:contact@afpropent.com"
+              whileHover={{ scale: 1.03, y: -3 }}
+              transition={{ duration: 0.2 }}
+              className="cyber-card p-6 flex items-center gap-4 hover:glow-primary transition-shadow duration-300 group"
+            >
+              <Mail className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
+              <div className="text-left">
+                <p className="text-sm font-bold text-foreground">Email</p>
+                <p className="text-xs text-muted-foreground font-mono">contact@afpropent.com</p>
+              </div>
+            </motion.a>
+            <motion.a
+              href="https://github.com/zerotrace"
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.03, y: -3 }}
+              transition={{ duration: 0.2 }}
+              className="cyber-card p-6 flex items-center gap-4 hover:glow-primary transition-shadow duration-300 group"
+            >
+              <Github className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
+              <div className="text-left">
+                <p className="text-sm font-bold text-foreground">GitHub</p>
+                <p className="text-xs text-muted-foreground font-mono">github.com/zerotrace</p>
+              </div>
+            </motion.a>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
 
 export default function Index() {
   const { scrollYProgress } = useScroll();
@@ -323,51 +443,7 @@ export default function Index() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="border-t border-border/50 py-20 bg-secondary/20 particle-bg">
-        <div className="container mx-auto px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="mx-auto max-w-2xl text-center"
-          >
-            <h2 className="text-3xl font-black mb-2 text-foreground">
-              <span className="shimmer-text font-mono">Contact</span> Us
-            </h2>
-            <p className="text-muted-foreground mb-10">Questions, suggestions, or collaboration? Get in touch.</p>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              <motion.a
-                href="mailto:contact@rakhnegah.af"
-                whileHover={{ scale: 1.03, y: -3 }}
-                transition={{ duration: 0.2 }}
-                className="cyber-card p-6 flex items-center gap-4 hover:glow-primary transition-shadow duration-300 group"
-              >
-                <Mail className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
-                <div className="text-left">
-                  <p className="text-sm font-bold text-foreground">Email</p>
-                  <p className="text-xs text-muted-foreground font-mono">contact@rakhnegah.af</p>
-                </div>
-              </motion.a>
-              <motion.a
-                href="https://github.com/zerotrace"
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.03, y: -3 }}
-                transition={{ duration: 0.2 }}
-                className="cyber-card p-6 flex items-center gap-4 hover:glow-primary transition-shadow duration-300 group"
-              >
-                <Github className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
-                <div className="text-left">
-                  <p className="text-sm font-bold text-foreground">GitHub</p>
-                  <p className="text-xs text-muted-foreground font-mono">github.com/zerotrace</p>
-                </div>
-              </motion.a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+      <ContactSection />
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">

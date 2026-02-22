@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import {
   Users, FlaskConical, FileCheck, Activity, Trophy, TrendingUp,
   Shield, BarChart3, Clock, CheckCircle2, XCircle, ChevronRight,
-  Zap, Globe, AlertTriangle
+  Zap, Globe, AlertTriangle, Mail
 } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 
@@ -115,6 +115,7 @@ export default function AdminPanel() {
     { to: "/admin/users", icon: Users, label: "User Management", desc: "View emails, points, ban/delete users", color: "text-primary" },
     { to: "/admin/labs", icon: FlaskConical, label: "Lab Management", desc: "Create, edit, publish labs", color: "text-accent" },
     { to: "/admin/submissions", icon: FileCheck, label: "Submissions", desc: "View all flag submissions", color: "text-cyber-yellow" },
+    { to: "/admin/messages", icon: Mail, label: "Contact Messages", desc: "View messages from contact form", color: "text-cyber-green" },
   ];
 
   return (
