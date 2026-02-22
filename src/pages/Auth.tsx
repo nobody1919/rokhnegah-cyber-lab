@@ -23,23 +23,23 @@ export default function Auth() {
     if (isLogin) {
       const { error } = await signIn(email, password);
       if (error) {
-        toast({ title: "خطا در ورود", description: error.message, variant: "destructive" });
+        toast({ title: "Login Error", description: error.message, variant: "destructive" });
       } else {
         navigate("/dashboard");
       }
     } else {
       if (!username.trim()) {
-        toast({ title: "خطا", description: "نام کاربری الزامی است", variant: "destructive" });
+        toast({ title: "Error", description: "Username is required", variant: "destructive" });
         setLoading(false);
         return;
       }
       const { error } = await signUp(email, password, username);
       if (error) {
-        toast({ title: "خطا در ثبت‌نام", description: error.message, variant: "destructive" });
+        toast({ title: "Sign Up Error", description: error.message, variant: "destructive" });
       } else {
         toast({
-          title: "ثبت‌نام موفق!",
-          description: "لطفاً ایمیل خود را برای تأیید حساب بررسی کنید.",
+          title: "Registration Successful!",
+          description: "Please check your email to verify your account.",
         });
       }
     }
@@ -51,56 +51,53 @@ export default function Auth() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Shield className="mx-auto mb-4 h-12 w-12 text-primary animate-pulse-glow" />
-          <h1 className="text-3xl font-bold text-primary glow-text-primary font-mono">رخنه‌گاه</h1>
+          <h1 className="text-3xl font-bold text-primary glow-text-primary font-mono">Rakhnegah</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {isLogin ? "وارد حساب خود شوید" : "حساب جدید بسازید"}
+            {isLogin ? "Sign in to your account" : "Create a new account"}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="cyber-card p-8 space-y-5">
           {!isLogin && (
             <div className="space-y-2">
-              <label className="text-sm font-medium text-muted-foreground">نام کاربری</label>
+              <label className="text-sm font-medium text-muted-foreground">Username</label>
               <div className="relative">
-                <User className="absolute right-3 top-3 h-4 w-4 text-muted-foreground" />
+                <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="نام کاربری شما"
-                  className="pr-10 bg-background/50 border-border/50 focus:border-primary"
-                  dir="ltr"
+                  placeholder="Your username"
+                  className="pl-10 bg-background/50 border-border/50 focus:border-primary"
                 />
               </div>
             </div>
           )}
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">ایمیل</label>
+            <label className="text-sm font-medium text-muted-foreground">Email</label>
             <div className="relative">
-              <Mail className="absolute right-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="email@example.com"
-                className="pr-10 bg-background/50 border-border/50 focus:border-primary"
-                dir="ltr"
+                className="pl-10 bg-background/50 border-border/50 focus:border-primary"
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-muted-foreground">رمز عبور</label>
+            <label className="text-sm font-medium text-muted-foreground">Password</label>
             <div className="relative">
-              <Lock className="absolute right-3 top-3 h-4 w-4 text-muted-foreground" />
+              <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="pr-10 bg-background/50 border-border/50 focus:border-primary"
-                dir="ltr"
+                className="pl-10 bg-background/50 border-border/50 focus:border-primary"
                 required
                 minLength={6}
               />
@@ -112,7 +109,7 @@ export default function Auth() {
               <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
             ) : (
               <>
-                {isLogin ? "ورود" : "ثبت‌نام"}
+                {isLogin ? "Sign In" : "Sign Up"}
                 <ArrowRight className="h-4 w-4" />
               </>
             )}
@@ -124,7 +121,7 @@ export default function Auth() {
               onClick={() => setIsLogin(!isLogin)}
               className="text-sm text-primary hover:underline"
             >
-              {isLogin ? "حساب ندارید؟ ثبت‌نام کنید" : "حساب دارید؟ وارد شوید"}
+              {isLogin ? "Don't have an account? Sign up" : "Already have an account? Sign in"}
             </button>
           </div>
         </form>
