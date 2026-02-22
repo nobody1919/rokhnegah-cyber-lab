@@ -337,7 +337,7 @@ export default function Index() {
             <h2 className="text-center text-3xl font-black mb-2 text-foreground">
               About the <span className="shimmer-text font-mono">Team</span>
             </h2>
-            <p className="text-center text-muted-foreground mb-10">The minds behind Rakhnegah</p>
+            <p className="text-center text-muted-foreground mb-10">The minds behind AFPROPENT</p>
 
             {/* Zero Trace - Founder */}
             <motion.div
