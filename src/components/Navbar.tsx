@@ -1,7 +1,8 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Shield, LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail, Settings } from "lucide-react";
+import { LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 export default function Navbar() {
   const { user, signOut, profile, isAdmin } = useAuth();
@@ -28,9 +29,10 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2 hover-scale">
-          <Shield className="h-7 w-7 text-primary animate-pulse-glow" />
+          <img src={logo} alt="AFPROPENT" className="h-8 w-8 rounded" />
+          <img src={logo} alt="AFPROPENT" className="h-8 w-8 rounded" />
           <span className="text-xl font-bold shimmer-text font-mono">
-            Afghan Pro Pentester
+            AFPROPENT
           </span>
         </Link>
 
