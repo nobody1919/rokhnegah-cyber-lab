@@ -5,10 +5,10 @@ import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 
 const features = [
-  { icon: Terminal, title: "آزمایشگاه‌های تعاملی", desc: "تمرین حملات واقعی در محیط امن" },
-  { icon: Bug, title: "آسیب‌پذیری‌های واقعی", desc: "XSS، SQL Injection، CSRF و بیشتر" },
-  { icon: FlaskConical, title: "محیط ایزوله", desc: "هر کاربر محیط اختصاصی خود را دارد" },
-  { icon: Shield, title: "یادگیری گام‌به‌گام", desc: "از مبتدی تا پیشرفته" },
+  { icon: Terminal, title: "Interactive Labs", desc: "Practice real attacks in a safe environment" },
+  { icon: Bug, title: "Real Vulnerabilities", desc: "XSS, SQL Injection, CSRF and more" },
+  { icon: FlaskConical, title: "Isolated Environment", desc: "Each user gets their own dedicated environment" },
+  { icon: Shield, title: "Step-by-Step Learning", desc: "From beginner to advanced" },
 ];
 
 const skills = [
@@ -16,7 +16,7 @@ const skills = [
   { icon: Globe, label: "Web App Pentester" },
   { icon: Shield, label: "Ethical Hacker" },
   { icon: Code, label: "Programmer" },
-  { icon: Skull, label: "Founder of رخنه‌گاه" },
+  { icon: Skull, label: "Founder of Rakhnegah" },
 ];
 
 export default function Index() {
@@ -35,30 +35,30 @@ export default function Index() {
           >
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm text-primary">
               <Shield className="h-4 w-4" />
-              اولین پلتفرم آموزش امنیت سایبری افغانستان
+              Afghanistan's First Cybersecurity Training Platform
             </div>
 
             <h1 className="mb-6 text-5xl font-black tracking-tight md:text-7xl">
-              <span className="text-primary glow-text-primary font-mono">رخنه‌گاه</span>
+              <span className="text-primary glow-text-primary font-mono">Rakhnegah</span>
             </h1>
 
             <p className="mb-4 text-xl text-muted-foreground md:text-2xl">
-              آزمایشگاه امنیت سایبری افغانستان
+              Afghanistan's Cybersecurity Lab
             </p>
             <p className="mb-10 text-base text-muted-foreground/70 max-w-xl mx-auto">
-              هک اخلاقی را در محیطی امن و کنترل‌شده تمرین کنید. آسیب‌پذیری‌های واقعی را کشف کنید و مهارت‌های خود را ارتقا دهید.
+              Practice ethical hacking in a safe and controlled environment. Discover real vulnerabilities and level up your skills.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link to="/auth">
                 <Button size="lg" className="glow-primary text-lg px-8 gap-2">
-                  شروع یادگیری
+                  Start Learning
                   <ChevronRight className="h-5 w-5" />
                 </Button>
               </Link>
               <Link to="/labs">
                 <Button variant="outline" size="lg" className="text-lg px-8 border-primary/30 text-primary hover:bg-primary/10">
-                  مشاهده آزمایشگاه‌ها
+                  View Labs
                 </Button>
               </Link>
             </div>
@@ -77,7 +77,7 @@ export default function Index() {
           viewport={{ once: true }}
           className="text-center text-3xl font-black mb-12 text-foreground"
         >
-          چرا <span className="text-primary glow-text-primary font-mono">رخنه‌گاه</span>؟
+          Why <span className="text-primary glow-text-primary font-mono">Rakhnegah</span>?
         </motion.h2>
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
@@ -101,10 +101,10 @@ export default function Index() {
       <section className="border-t border-border/50 bg-secondary/30">
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-16 md:grid-cols-4">
           {[
-            { value: "8+", label: "دسته‌بندی" },
-            { value: "11+", label: "آزمایشگاه" },
-            { value: "3", label: "سطح دشواری" },
-            { value: "∞", label: "یادگیری" },
+            { value: "8+", label: "Categories" },
+            { value: "11+", label: "Labs" },
+            { value: "3", label: "Difficulty Levels" },
+            { value: "∞", label: "Learning" },
           ].map((s) => (
             <div key={s.label} className="text-center">
               <div className="text-3xl font-black text-primary font-mono glow-text-primary">{s.value}</div>
@@ -125,9 +125,9 @@ export default function Index() {
             className="mx-auto max-w-3xl"
           >
             <h2 className="text-center text-3xl font-black mb-2 text-foreground">
-              درباره <span className="text-primary glow-text-primary font-mono">بنیان‌گذار</span>
+              About the <span className="text-primary glow-text-primary font-mono">Founder</span>
             </h2>
-            <p className="text-center text-muted-foreground mb-10">ذهن پشت رخنه‌گاه</p>
+            <p className="text-center text-muted-foreground mb-10">The mind behind Rakhnegah</p>
 
             <div className="cyber-card p-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-3xl" />
@@ -139,15 +139,15 @@ export default function Index() {
                     <User className="h-14 w-14 text-primary" />
                   </div>
                 </div>
-                <div className="text-center md:text-right flex-1">
+                <div className="text-center md:text-left flex-1">
                   <h3 className="text-2xl font-black text-primary font-mono glow-text-primary mb-1">
                     Zero Trace
                   </h3>
                   <p className="text-muted-foreground mb-4">
-                    متخصص امنیت سایبری و بنیان‌گذار پلتفرم رخنه‌گاه
+                    Cybersecurity specialist & founder of Rakhnegah
                   </p>
                   <p className="text-sm text-foreground/70 leading-relaxed mb-6">
-                    من Zero Trace هستم، یک هکر اخلاقی و محقق امنیت سایبری. هدفم ایجاد بستری امن برای آموزش و تمرین هک اخلاقی در افغانستان است. با سال‌ها تجربه در کشف آسیب‌پذیری، تست نفوذ وب‌اپلیکیشن‌ها و برنامه‌نویسی، رخنه‌گاه را ساختم تا نسل جدیدی از متخصصان امنیت سایبری را پرورش دهم.
+                    I'm Zero Trace, an ethical hacker and cybersecurity researcher. My goal is to create a safe platform for learning and practicing ethical hacking in Afghanistan. With years of experience in vulnerability discovery, web application penetration testing, and programming, I built Rakhnegah to nurture the next generation of cybersecurity professionals.
                   </p>
                   <div className="flex flex-wrap justify-center md:justify-start gap-2">
                     {skills.map((skill) => (
@@ -178,22 +178,22 @@ export default function Index() {
             className="mx-auto max-w-2xl text-center"
           >
             <h2 className="text-3xl font-black mb-2 text-foreground">
-              <span className="text-primary glow-text-primary font-mono">تماس</span> با ما
+              <span className="text-primary glow-text-primary font-mono">Contact</span> Us
             </h2>
-            <p className="text-muted-foreground mb-10">سؤال، پیشنهاد یا همکاری؟ با ما در تماس باشید.</p>
+            <p className="text-muted-foreground mb-10">Questions, suggestions, or collaboration? Get in touch.</p>
 
             <div className="grid gap-4 sm:grid-cols-2">
               <a href="mailto:contact@rakhnegah.af" className="cyber-card p-6 flex items-center gap-4 hover:glow-primary transition-shadow duration-300 group">
                 <Mail className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
-                <div className="text-right">
-                  <p className="text-sm font-bold text-foreground">ایمیل</p>
+                <div className="text-left">
+                  <p className="text-sm font-bold text-foreground">Email</p>
                   <p className="text-xs text-muted-foreground font-mono">contact@rakhnegah.af</p>
                 </div>
               </a>
               <a href="https://github.com/zerotrace" target="_blank" rel="noopener noreferrer" className="cyber-card p-6 flex items-center gap-4 hover:glow-primary transition-shadow duration-300 group">
                 <Github className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
-                <div className="text-right">
-                  <p className="text-sm font-bold text-foreground">گیت‌هاب</p>
+                <div className="text-left">
+                  <p className="text-sm font-bold text-foreground">GitHub</p>
                   <p className="text-xs text-muted-foreground font-mono">github.com/zerotrace</p>
                 </div>
               </a>
@@ -205,8 +205,8 @@ export default function Index() {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
         <div className="container mx-auto px-4">
-          <p className="font-mono text-primary/60">رخنه‌گاه © {new Date().getFullYear()}</p>
-          <p className="mt-1 text-xs">ساخته‌شده توسط Zero Trace 🇦🇫</p>
+          <p className="font-mono text-primary/60">Rakhnegah © {new Date().getFullYear()}</p>
+          <p className="mt-1 text-xs">Built by Zero Trace 🇦🇫</p>
         </div>
       </footer>
     </div>

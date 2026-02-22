@@ -48,9 +48,9 @@ const diffBadge: Record<string, string> = {
 };
 
 const diffLabel: Record<string, string> = {
-  beginner: "مبتدی",
-  intermediate: "متوسط",
-  advanced: "پیشرفته",
+  beginner: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
 };
 
 export default function Labs() {
@@ -93,9 +93,9 @@ export default function Labs() {
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
               <h1 className="mb-2 text-2xl font-bold flex items-center gap-2">
                 <FlaskConical className="h-6 w-6 text-primary" />
-                دسته‌بندی آزمایشگاه‌ها
+                Lab Categories
               </h1>
-              <p className="mb-8 text-muted-foreground">یک دسته‌بندی را انتخاب کنید</p>
+              <p className="mb-8 text-muted-foreground">Choose a category to get started</p>
             </motion.div>
 
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -126,9 +126,9 @@ export default function Labs() {
           <>
             <div className="mb-8">
               <Link to="/labs" className="text-sm text-primary hover:underline mb-2 inline-block">
-                ← بازگشت به دسته‌بندی‌ها
+                ← Back to Categories
               </Link>
-              <h1 className="text-2xl font-bold">{selectedCategory?.name ?? "آزمایشگاه‌ها"}</h1>
+              <h1 className="text-2xl font-bold">{selectedCategory?.name ?? "Labs"}</h1>
               {selectedCategory?.name_fa && (
                 <p className="text-muted-foreground">{selectedCategory.name_fa}</p>
               )}
@@ -156,7 +156,7 @@ export default function Labs() {
                         </Badge>
                         {completedLabs.has(lab.id) && (
                           <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
-                            ✓ حل‌شده
+                            ✓ Solved
                           </Badge>
                         )}
                       </div>
@@ -173,7 +173,7 @@ export default function Labs() {
                 </motion.div>
               ))}
               {labs.length === 0 && (
-                <p className="text-center text-muted-foreground py-12">هنوز آزمایشگاهی در این دسته‌بندی وجود ندارد</p>
+                <p className="text-center text-muted-foreground py-12">No labs available in this category yet</p>
               )}
             </div>
           </>

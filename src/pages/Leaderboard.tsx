@@ -32,9 +32,9 @@ export default function Leaderboard() {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
           <h1 className="mb-2 text-2xl font-bold flex items-center gap-2">
             <Trophy className="h-6 w-6 text-cyber-yellow" />
-            جدول رتبه‌بندی
+            Leaderboard
           </h1>
-          <p className="mb-8 text-muted-foreground">بهترین هکرهای رخنه‌گاه</p>
+          <p className="mb-8 text-muted-foreground">Top hackers of Rakhnegah</p>
         </motion.div>
 
         <div className="space-y-3">
@@ -62,7 +62,7 @@ export default function Leaderboard() {
                   {Icon ? <Icon className="h-5 w-5" /> : i + 1}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <p className="font-bold truncate">{entry.username ?? "ناشناس"}</p>
+                  <p className="font-bold truncate">{entry.username ?? "Anonymous"}</p>
                   <p className="text-xs text-muted-foreground">{entry.level}</p>
                 </div>
                 <span className="font-mono font-bold text-primary">{entry.points} pts</span>
@@ -70,7 +70,7 @@ export default function Leaderboard() {
             );
           })}
           {entries.length === 0 && (
-            <p className="text-center text-muted-foreground py-12">هنوز کاربری ثبت‌نام نکرده است</p>
+            <p className="text-center text-muted-foreground py-12">No users have registered yet</p>
           )}
         </div>
       </div>

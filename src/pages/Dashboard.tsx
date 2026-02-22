@@ -8,6 +8,19 @@ import { Trophy, Target, Flame, ChevronRight, CheckCircle2 } from "lucide-react"
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 
+interface Rank {
+  name: string;
+  min: number;
+  color: string;
+}
+
+interface Profile {
+  id: string;
+  username: string | null;
+  points: number;
+  level: string;
+}
+
 interface LabInstance {
   id: string;
   lab_id: string;
@@ -68,18 +81,18 @@ export default function Dashboard() {
       <div className="container mx-auto px-4 py-10">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
           <h1 className="mb-2 text-2xl font-bold">
-            سلام، <span className="text-primary font-mono">{profile?.username ?? "هکر"}</span> 👋
+            Hello, <span className="text-primary font-mono">{profile?.username ?? "Hacker"}</span> 👋
           </h1>
-          <p className="mb-8 text-muted-foreground">به داشبورد خود خوش آمدید</p>
+          <p className="mb-8 text-muted-foreground">Welcome to your dashboard</p>
         </motion.div>
 
         {/* Stats Grid */}
         <div className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[
-            { icon: Trophy, label: "رتبه", value: rank.name, color: rank.color },
-            { icon: Flame, label: "امتیاز", value: `${points}`, color: "text-primary" },
-            { icon: Target, label: "آزمایشگاه‌های انجام‌شده", value: `${completedCount}/${totalLabs}`, color: "text-accent" },
-            { icon: CheckCircle2, label: "در حال انجام", value: `${instances.filter((i) => i.status === "in_progress").length}`, color: "text-cyber-yellow" },
+            { icon: Trophy, label: "Rank", value: rank.name, color: rank.color },
+            { icon: Flame, label: "Points", value: `${points}`, color: "text-primary" },
+            { icon: Target, label: "Labs Completed", value: `${completedCount}/${totalLabs}`, color: "text-accent" },
+            { icon: CheckCircle2, label: "In Progress", value: `${instances.filter((i) => i.status === "in_progress").length}`, color: "text-cyber-yellow" },
           ].map((s, i) => (
             <motion.div
               key={s.label}
@@ -107,9 +120,9 @@ export default function Dashboard() {
           className="cyber-card mb-8 p-6"
         >
           <div className="mb-3 flex items-center justify-between">
-            <span className="text-sm font-medium">پیشرفت به رتبه بعدی</span>
+            <span className="text-sm font-medium">Progress to Next Rank</span>
             <span className="text-sm text-primary font-mono">
-              {nextRank ? `${nextRank.name} (${nextRank.min} pts)` : "حداکثر رتبه!"}
+              {nextRank ? `${nextRank.name} (${nextRank.min} pts)` : "Max Rank!"}
             </span>
           </div>
           <Progress value={progress} className="h-3 bg-secondary [&>div]:bg-primary [&>div]:glow-primary" />
@@ -119,13 +132,13 @@ export default function Dashboard() {
         <div className="flex flex-col sm:flex-row gap-4">
           <Link to="/labs" className="flex-1">
             <Button variant="outline" className="w-full gap-2 border-primary/30 text-primary hover:bg-primary/10 py-6 text-base">
-              مشاهده آزمایشگاه‌ها
+              View Labs
               <ChevronRight className="h-5 w-5" />
             </Button>
           </Link>
           <Link to="/leaderboard" className="flex-1">
             <Button variant="outline" className="w-full gap-2 border-accent/30 text-accent hover:bg-accent/10 py-6 text-base">
-              جدول رتبه‌بندی
+              Leaderboard
               <ChevronRight className="h-5 w-5" />
             </Button>
           </Link>

@@ -30,7 +30,7 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2">
           <Shield className="h-7 w-7 text-primary" />
           <span className="text-xl font-bold text-primary glow-text-primary font-mono">
-            رخنه‌گاه
+            Rakhnegah
           </span>
         </Link>
 
@@ -39,7 +39,7 @@ export default function Navbar() {
             <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground" asChild>
               <span>
                 <Info className="h-4 w-4" />
-                <span className="hidden sm:inline">درباره ما</span>
+                <span className="hidden sm:inline">About</span>
               </span>
             </Button>
           </button>
@@ -47,7 +47,7 @@ export default function Navbar() {
             <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground" asChild>
               <span>
                 <Mail className="h-4 w-4" />
-                <span className="hidden sm:inline">تماس</span>
+                <span className="hidden sm:inline">Contact</span>
               </span>
             </Button>
           </button>
@@ -58,19 +58,19 @@ export default function Navbar() {
               <Link to="/dashboard">
                 <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
                   <LayoutDashboard className="h-4 w-4" />
-                  <span className="hidden sm:inline">داشبورد</span>
+                  <span className="hidden sm:inline">Dashboard</span>
                 </Button>
               </Link>
               <Link to="/labs">
                 <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
                   <FlaskConical className="h-4 w-4" />
-                  <span className="hidden sm:inline">آزمایشگاه‌ها</span>
+                  <span className="hidden sm:inline">Labs</span>
                 </Button>
               </Link>
               <Link to="/leaderboard">
                 <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
                   <Trophy className="h-4 w-4" />
-                  <span className="hidden sm:inline">رتبه‌بندی</span>
+                  <span className="hidden sm:inline">Leaderboard</span>
                 </Button>
               </Link>
               <div className="mx-2 h-6 w-px bg-border" />
@@ -84,7 +84,7 @@ export default function Navbar() {
           ) : (
             <Link to="/auth">
               <Button size="sm" className="glow-primary">
-                ورود / ثبت‌نام
+                Login / Sign Up
               </Button>
             </Link>
           )}

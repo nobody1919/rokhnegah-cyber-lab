@@ -38,9 +38,9 @@ const diffBadge: Record<string, string> = {
 };
 
 const diffLabel: Record<string, string> = {
-  beginner: "مبتدی",
-  intermediate: "متوسط",
-  advanced: "پیشرفته",
+  beginner: "Beginner",
+  intermediate: "Intermediate",
+  advanced: "Advanced",
 };
 
 export default function LabDetail() {
@@ -59,7 +59,6 @@ export default function LabDetail() {
   useEffect(() => {
     if (!labId) return;
     supabase.from("labs").select("*").eq("id", labId).single().then(({ data }) => {
-      // Don't expose the flag to client - we'll check on submit
       if (data) {
         setLab({ ...(data as any), flag: "" });
       }
@@ -89,7 +88,6 @@ export default function LabDetail() {
       .single();
     if (error) {
       if (error.code === "23505") {
-        // Already exists
         const { data: existing } = await supabase
           .from("lab_instances")
           .select("*")
@@ -98,11 +96,11 @@ export default function LabDetail() {
           .single();
         setInstance(existing as LabInstance);
       } else {
-        toast({ title: "خطا", description: error.message, variant: "destructive" });
+        toast({ title: "Error", description: error.message, variant: "destructive" });
       }
     } else {
       setInstance(data as LabInstance);
-      toast({ title: "آزمایشگاه شروع شد!", description: "محیط اختصاصی شما ایجاد شد." });
+      toast({ title: "Lab Started!", description: "Your dedicated environment has been created." });
     }
   };
 
@@ -111,7 +109,6 @@ export default function LabDetail() {
     setSubmitting(true);
     setResult(null);
 
-    // Verify flag via edge function or direct check
     const { data: labData } = await supabase
       .from("labs")
       .select("flag, points")
@@ -130,14 +127,12 @@ export default function LabDetail() {
 
     if (isCorrect) {
       setResult("correct");
-      // Update instance
       await supabase
         .from("lab_instances")
         .update({ status: "completed", completed_at: new Date().toISOString() })
         .eq("id", instance.id);
       setInstance({ ...instance, status: "completed" });
 
-      // Update points
       const { data: profile } = await supabase
         .from("profiles")
         .select("points")
@@ -150,10 +145,10 @@ export default function LabDetail() {
           .eq("user_id", user.id);
       }
       await refreshProfile();
-      toast({ title: "🎉 تبریک!", description: `پرچم صحیح! ${labData?.points} امتیاز دریافت کردید.` });
+      toast({ title: "🎉 Congratulations!", description: `Correct flag! You earned ${labData?.points} points.` });
     } else {
       setResult("wrong");
-      toast({ title: "❌ پرچم نادرست", description: "دوباره تلاش کنید.", variant: "destructive" });
+      toast({ title: "❌ Wrong Flag", description: "Try again.", variant: "destructive" });
     }
     setSubmitting(false);
   };
@@ -192,7 +187,7 @@ export default function LabDetail() {
                 </Badge>
                 {isCompleted && (
                   <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
-                    ✓ حل‌شده
+                    ✓ Solved
                   </Badge>
                 )}
               </div>
@@ -204,7 +199,7 @@ export default function LabDetail() {
           {lab.objective && (
             <div className="cyber-card p-5 mb-4">
               <h2 className="mb-2 text-sm font-bold text-primary flex items-center gap-2">
-                <Flag className="h-4 w-4" /> هدف
+                <Flag className="h-4 w-4" /> Objective
               </h2>
               <p className="text-sm text-foreground">{lab.objective}</p>
             </div>
@@ -214,24 +209,24 @@ export default function LabDetail() {
           <div className="cyber-card p-6 mb-4">
             {!instance ? (
               <div className="text-center py-4">
-                <p className="mb-4 text-muted-foreground">برای شروع آزمایشگاه روی دکمه زیر کلیک کنید</p>
+                <p className="mb-4 text-muted-foreground">Click the button below to start the lab</p>
                 <Button onClick={startLab} className="glow-primary gap-2" size="lg">
                   <Play className="h-5 w-5" />
-                  شروع آزمایشگاه
+                  Start Lab
                 </Button>
               </div>
             ) : isCompleted ? (
               <div className="flex items-center gap-3 text-accent">
                 <CheckCircle2 className="h-6 w-6" />
                 <div>
-                  <p className="font-bold">این آزمایشگاه را با موفقیت حل کرده‌اید!</p>
-                  <p className="text-sm text-muted-foreground">می‌توانید راه‌حل را مشاهده کنید.</p>
+                  <p className="font-bold">You have successfully solved this lab!</p>
+                  <p className="text-sm text-muted-foreground">You can view the solution below.</p>
                 </div>
               </div>
             ) : (
               <div>
                 <h2 className="mb-3 text-sm font-bold text-primary flex items-center gap-2">
-                  <Flag className="h-4 w-4" /> ارسال پرچم
+                  <Flag className="h-4 w-4" /> Submit Flag
                 </h2>
                 <div className="flex gap-2">
                   <Input
@@ -246,21 +241,21 @@ export default function LabDetail() {
                     {submitting ? (
                       <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
                     ) : (
-                      "ارسال"
+                      "Submit"
                     )}
                   </Button>
                 </div>
                 {result === "wrong" && (
                   <div className="mt-3 flex items-center gap-2 text-destructive text-sm">
                     <XCircle className="h-4 w-4" />
-                    پرچم نادرست است. دوباره تلاش کنید.
+                    Incorrect flag. Try again.
                   </div>
                 )}
               </div>
             )}
           </div>
 
-          {/* Lab Environment - Interactive Simulation */}
+          {/* Lab Environment */}
           {instance && !isCompleted && (
             <div className="mb-4">
               <LabEnvironment
@@ -279,7 +274,7 @@ export default function LabDetail() {
               >
                 <span className="flex items-center gap-2">
                   <Lightbulb className="h-4 w-4" />
-                  راهنمایی
+                  Hint
                 </span>
                 {showHint ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -287,7 +282,7 @@ export default function LabDetail() {
             </div>
           )}
 
-          {/* Solution - only show after completion */}
+          {/* Solution */}
           {lab.solution && isCompleted && (
             <div className="cyber-card p-5">
               <button
@@ -296,7 +291,7 @@ export default function LabDetail() {
               >
                 <span className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4" />
-                  راه‌حل
+                  Solution
                 </span>
                 {showSolution ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
