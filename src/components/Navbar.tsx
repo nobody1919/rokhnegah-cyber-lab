@@ -1,15 +1,27 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Shield, LogOut, Trophy, LayoutDashboard, FlaskConical } from "lucide-react";
+import { Shield, LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
   const { user, signOut, profile } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignOut = async () => {
     await signOut();
     navigate("/");
+  };
+
+  const scrollTo = (id: string) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    } else {
+      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -23,8 +35,26 @@ export default function Navbar() {
         </Link>
 
         <div className="flex items-center gap-1">
+          <button onClick={() => scrollTo("about")}>
+            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground" asChild>
+              <span>
+                <Info className="h-4 w-4" />
+                <span className="hidden sm:inline">درباره ما</span>
+              </span>
+            </Button>
+          </button>
+          <button onClick={() => scrollTo("contact")}>
+            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground" asChild>
+              <span>
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">تماس</span>
+              </span>
+            </Button>
+          </button>
+
           {user ? (
             <>
+              <div className="mx-1 h-6 w-px bg-border hidden sm:block" />
               <Link to="/dashboard">
                 <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
                   <LayoutDashboard className="h-4 w-4" />
