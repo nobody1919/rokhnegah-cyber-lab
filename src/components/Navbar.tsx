@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { Shield, LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail } from "lucide-react";
+import { Shield, LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function Navbar() {
-  const { user, signOut, profile } = useAuth();
+  const { user, signOut, profile, isAdmin } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -27,9 +27,9 @@ export default function Navbar() {
   return (
     <nav className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2">
-          <Shield className="h-7 w-7 text-primary" />
-          <span className="text-xl font-bold text-primary glow-text-primary font-mono">
+        <Link to="/" className="flex items-center gap-2 hover-scale">
+          <Shield className="h-7 w-7 text-primary animate-pulse-glow" />
+          <span className="text-xl font-bold shimmer-text font-mono">
             Rakhnegah
           </span>
         </Link>
@@ -73,6 +73,14 @@ export default function Navbar() {
                   <span className="hidden sm:inline">Leaderboard</span>
                 </Button>
               </Link>
+              {isAdmin && (
+                <Link to="/admin">
+                  <Button variant="ghost" size="sm" className="gap-2 text-cyber-yellow hover:text-cyber-yellow/80">
+                    <Settings className="h-4 w-4" />
+                    <span className="hidden sm:inline">Admin</span>
+                  </Button>
+                </Link>
+              )}
               <div className="mx-2 h-6 w-px bg-border" />
               <span className="text-sm text-primary font-mono mr-2">
                 {profile?.points ?? 0} pts
@@ -83,7 +91,7 @@ export default function Navbar() {
             </>
           ) : (
             <Link to="/auth">
-              <Button size="sm" className="glow-primary">
+              <Button size="sm" className="glow-primary hover-scale">
                 Login / Sign Up
               </Button>
             </Link>
