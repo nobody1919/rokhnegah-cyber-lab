@@ -30,7 +30,6 @@ export default function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link to="/" className="flex items-center gap-2 hover-scale">
           <img src={logo} alt="AFPROPENT" className="h-8 w-8 rounded" />
-          <img src={logo} alt="AFPROPENT" className="h-8 w-8 rounded" />
           <span className="text-xl font-bold shimmer-text font-mono">
             AFPROPENT
           </span>
