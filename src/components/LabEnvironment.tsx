@@ -1,5 +1,17 @@
 import { useState } from "react";
 import { Terminal, AlertTriangle, Shield, BookOpen, Zap } from "lucide-react";
+import {
+  XSSEventHandlerLab, XSSFilterBypassLab, XSSAttributeLab, XSSJSContextLab,
+  XSSCookieStealLab, XSSPolyglotLab, XSSBlindLab,
+  SQLiErrorLab, SQLiBlindBoolLab, SQLiTimeBlindLab, SQLiStackedLab,
+  SQLiSecondOrderLab, SQLiWhereLab, SQLiOrderByLab, SQLiWAFBypassLab,
+  CSRFPasswordLab,
+  AuthDefaultLab, AuthJWTNoneLab,
+  AccessForcedBrowseLab, AccessPathTraversalLab,
+  FileMimeBypassLab, FileExtBypassLab,
+  IDORApiLab,
+  CmdBlindLab, CmdFilterBypassLab,
+} from "./LabEnvironmentExtra";
 
 interface LabEnvironmentProps {
   labType: string | null;
@@ -8,28 +20,42 @@ interface LabEnvironmentProps {
 
 export default function LabEnvironment({ labType, onFlagFound }: LabEnvironmentProps) {
   switch (labType) {
-    case "xss_reflected":
-      return <XSSReflectedLab onFlagFound={onFlagFound} />;
-    case "xss_stored":
-      return <XSSStoredLab onFlagFound={onFlagFound} />;
-    case "xss_dom":
-      return <XSSDOMLab onFlagFound={onFlagFound} />;
-    case "sqli_login":
-      return <SQLiLoginLab onFlagFound={onFlagFound} />;
-    case "sqli_union":
-      return <SQLiUnionLab onFlagFound={onFlagFound} />;
-    case "csrf_missing":
-      return <CSRFMissingLab onFlagFound={onFlagFound} />;
-    case "auth_weak":
-      return <AuthWeakLab onFlagFound={onFlagFound} />;
-    case "access_idor":
-      return <AccessIDORLab onFlagFound={onFlagFound} />;
-    case "file_unrestricted":
-      return <FileUploadLab onFlagFound={onFlagFound} />;
-    case "idor_basic":
-      return <IDORBasicLab onFlagFound={onFlagFound} />;
-    case "cmd_basic":
-      return <CmdInjectionLab onFlagFound={onFlagFound} />;
+    case "xss_reflected": return <XSSReflectedLab onFlagFound={onFlagFound} />;
+    case "xss_stored": return <XSSStoredLab onFlagFound={onFlagFound} />;
+    case "xss_dom": return <XSSDOMLab onFlagFound={onFlagFound} />;
+    case "xss_event_handler": return <XSSEventHandlerLab onFlagFound={onFlagFound} />;
+    case "xss_filter_bypass": return <XSSFilterBypassLab onFlagFound={onFlagFound} />;
+    case "xss_attribute": return <XSSAttributeLab onFlagFound={onFlagFound} />;
+    case "xss_js_context": return <XSSJSContextLab onFlagFound={onFlagFound} />;
+    case "xss_cookie_steal": return <XSSCookieStealLab onFlagFound={onFlagFound} />;
+    case "xss_polyglot": return <XSSPolyglotLab onFlagFound={onFlagFound} />;
+    case "xss_blind": return <XSSBlindLab onFlagFound={onFlagFound} />;
+    case "sqli_login": return <SQLiLoginLab onFlagFound={onFlagFound} />;
+    case "sqli_union": return <SQLiUnionLab onFlagFound={onFlagFound} />;
+    case "sqli_error": return <SQLiErrorLab onFlagFound={onFlagFound} />;
+    case "sqli_blind_bool": return <SQLiBlindBoolLab onFlagFound={onFlagFound} />;
+    case "sqli_time_blind": return <SQLiTimeBlindLab onFlagFound={onFlagFound} />;
+    case "sqli_stacked": return <SQLiStackedLab onFlagFound={onFlagFound} />;
+    case "sqli_second_order": return <SQLiSecondOrderLab onFlagFound={onFlagFound} />;
+    case "sqli_where": return <SQLiWhereLab onFlagFound={onFlagFound} />;
+    case "sqli_orderby": return <SQLiOrderByLab onFlagFound={onFlagFound} />;
+    case "sqli_waf_bypass": return <SQLiWAFBypassLab onFlagFound={onFlagFound} />;
+    case "csrf_missing": return <CSRFMissingLab onFlagFound={onFlagFound} />;
+    case "csrf_password": return <CSRFPasswordLab onFlagFound={onFlagFound} />;
+    case "auth_weak": return <AuthWeakLab onFlagFound={onFlagFound} />;
+    case "auth_default": return <AuthDefaultLab onFlagFound={onFlagFound} />;
+    case "auth_jwt_none": return <AuthJWTNoneLab onFlagFound={onFlagFound} />;
+    case "access_idor": return <AccessIDORLab onFlagFound={onFlagFound} />;
+    case "access_forced_browse": return <AccessForcedBrowseLab onFlagFound={onFlagFound} />;
+    case "access_path_traversal": return <AccessPathTraversalLab onFlagFound={onFlagFound} />;
+    case "file_unrestricted": return <FileUploadLab onFlagFound={onFlagFound} />;
+    case "file_mime_bypass": return <FileMimeBypassLab onFlagFound={onFlagFound} />;
+    case "file_ext_bypass": return <FileExtBypassLab onFlagFound={onFlagFound} />;
+    case "idor_basic": return <IDORBasicLab onFlagFound={onFlagFound} />;
+    case "idor_api": return <IDORApiLab onFlagFound={onFlagFound} />;
+    case "cmd_basic": return <CmdInjectionLab onFlagFound={onFlagFound} />;
+    case "cmd_blind": return <CmdBlindLab onFlagFound={onFlagFound} />;
+    case "cmd_filter_bypass": return <CmdFilterBypassLab onFlagFound={onFlagFound} />;
     default:
       return (
         <div className="cyber-card p-6 text-center text-muted-foreground">
