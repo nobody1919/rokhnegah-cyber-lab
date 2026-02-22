@@ -34,7 +34,7 @@ export default function Leaderboard() {
             <Trophy className="h-6 w-6 text-cyber-yellow" />
             Leaderboard
           </h1>
-          <p className="mb-8 text-muted-foreground">Top hackers of Rakhnegah</p>
+          <p className="mb-8 text-muted-foreground">Top hackers of AFPROPENT</p>
         </motion.div>
 
         <div className="space-y-3">

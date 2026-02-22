@@ -51,7 +51,7 @@ export default function Auth() {
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <Shield className="mx-auto mb-4 h-12 w-12 text-primary animate-pulse-glow" />
-          <h1 className="text-3xl font-bold text-primary glow-text-primary font-mono">Rakhnegah</h1>
+          <h1 className="text-3xl font-bold text-primary glow-text-primary font-mono">AFPROPENT</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {isLogin ? "Sign in to your account" : "Create a new account"}
           </p>
