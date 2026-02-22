@@ -30,7 +30,7 @@ export default function Navbar() {
         <Link to="/" className="flex items-center gap-2 hover-scale">
           <Shield className="h-7 w-7 text-primary animate-pulse-glow" />
           <span className="text-xl font-bold shimmer-text font-mono">
-            Rakhnegah
+            Afghan Pro Pentester
           </span>
         </Link>
 

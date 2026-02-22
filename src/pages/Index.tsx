@@ -16,7 +16,7 @@ const skills = [
   { icon: Globe, label: "Web App Pentester" },
   { icon: Shield, label: "Ethical Hacker" },
   { icon: Code, label: "Programmer" },
-  { icon: Skull, label: "Founder of Rakhnegah" },
+  { icon: Skull, label: "Founder of Afghan Pro Pentester" },
 ];
 
 const staggerContainer = {
@@ -57,7 +57,7 @@ export default function Index() {
               className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm text-primary animate-border-flow"
             >
               <Shield className="h-4 w-4 animate-pulse-glow" />
-              Afghanistan's First Cybersecurity Training Platform
+              Afghanistan's First Pro Pentesting Platform
             </motion.div>
 
             <motion.h1
@@ -66,7 +66,7 @@ export default function Index() {
               transition={{ duration: 0.7, delay: 0.2 }}
               className="mb-6 text-5xl font-black tracking-tight md:text-7xl"
             >
-              <span className="shimmer-text font-mono">Rakhnegah</span>
+              <span className="shimmer-text font-mono">Afghan Pro Pentester</span>
             </motion.h1>
 
             <motion.p
@@ -75,7 +75,7 @@ export default function Index() {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="mb-4 text-xl text-muted-foreground md:text-2xl"
             >
-              Afghanistan's Cybersecurity Lab
+              Afghanistan's Pro Pentesting Lab
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -152,7 +152,7 @@ export default function Index() {
           transition={{ duration: 0.5 }}
           className="text-center text-3xl font-black mb-12 text-foreground"
         >
-          Why <span className="shimmer-text font-mono">Rakhnegah</span>?
+          Why <span className="shimmer-text font-mono">Afghan Pro Pentester</span>?
         </motion.h2>
         <motion.div
           variants={staggerContainer}
@@ -184,8 +184,8 @@ export default function Index() {
       <section className="border-t border-border/50 bg-secondary/30 particle-bg">
         <div className="container mx-auto grid grid-cols-2 gap-8 px-4 py-16 md:grid-cols-4">
           {[
-            { value: "8+", label: "Categories" },
-            { value: "11+", label: "Labs" },
+            { value: "8", label: "Categories" },
+            { value: "51+", label: "Labs" },
             { value: "3", label: "Difficulty Levels" },
             { value: "∞", label: "Learning" },
           ].map((s, i) => (
@@ -246,7 +246,7 @@ export default function Index() {
                     Founder & Lead Developer
                   </p>
                   <p className="text-sm text-foreground/70 leading-relaxed mb-6">
-                    I'm Zero Trace, an ethical hacker and cybersecurity researcher. My goal is to create a safe platform for learning and practicing ethical hacking in Afghanistan. With years of experience in vulnerability discovery, web application penetration testing, and programming, I built Rakhnegah to nurture the next generation of cybersecurity professionals.
+                    I'm Zero Trace, an ethical hacker and cybersecurity researcher. My goal is to create a safe platform for learning and practicing ethical hacking in Afghanistan. With years of experience in vulnerability discovery, web application penetration testing, and programming, I built Afghan Pro Pentester to nurture the next generation of cybersecurity professionals.
                   </p>
                   <motion.div
                     variants={staggerContainer}
@@ -297,7 +297,7 @@ export default function Index() {
                     Security Researcher & Developer
                   </p>
                   <p className="text-sm text-foreground/70 leading-relaxed mb-6">
-                    Bug hunter and programmer with a sharp eye for finding vulnerabilities. A key contributor to the Rakhnegah team, bringing hands-on experience in security research and development.
+                    Bug hunter and programmer with a sharp eye for finding vulnerabilities. A key contributor to the Afghan Pro Pentester team, bringing hands-on experience in security research and development.
                   </p>
                   <div className="flex flex-wrap justify-center md:justify-start gap-2">
                     {[
@@ -372,7 +372,7 @@ export default function Index() {
       {/* Footer */}
       <footer className="border-t border-border/50 py-8 text-center text-sm text-muted-foreground">
         <div className="container mx-auto px-4">
-          <p className="font-mono text-primary/60">Rakhnegah © {new Date().getFullYear()}</p>
+          <p className="font-mono text-primary/60">Afghan Pro Pentester © {new Date().getFullYear()}</p>
           <p className="mt-1 text-xs">Built by Zero Trace 🇦🇫</p>
         </div>
       </footer>
