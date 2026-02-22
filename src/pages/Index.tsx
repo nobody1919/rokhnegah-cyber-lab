@@ -215,10 +215,11 @@ export default function Index() {
             className="mx-auto max-w-3xl"
           >
             <h2 className="text-center text-3xl font-black mb-2 text-foreground">
-              About the <span className="shimmer-text font-mono">Founder</span>
+              About the <span className="shimmer-text font-mono">Team</span>
             </h2>
-            <p className="text-center text-muted-foreground mb-10">The mind behind Rakhnegah</p>
+            <p className="text-center text-muted-foreground mb-10">The minds behind Rakhnegah</p>
 
+            {/* Zero Trace - Founder */}
             <motion.div
               whileHover={{ scale: 1.01 }}
               transition={{ duration: 0.3 }}
@@ -242,7 +243,7 @@ export default function Index() {
                     Zero Trace
                   </h3>
                   <p className="text-muted-foreground mb-4">
-                    Cybersecurity specialist & founder of Rakhnegah
+                    Founder & Lead Developer
                   </p>
                   <p className="text-sm text-foreground/70 leading-relaxed mb-6">
                     I'm Zero Trace, an ethical hacker and cybersecurity researcher. My goal is to create a safe platform for learning and practicing ethical hacking in Afghanistan. With years of experience in vulnerability discovery, web application penetration testing, and programming, I built Rakhnegah to nurture the next generation of cybersecurity professionals.
@@ -266,6 +267,54 @@ export default function Index() {
                       </motion.span>
                     ))}
                   </motion.div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Cynsys - Team Member */}
+            <motion.div
+              whileHover={{ scale: 1.01 }}
+              transition={{ duration: 0.3 }}
+              className="cyber-card p-8 relative overflow-hidden scanline mt-6"
+            >
+              <div className="absolute top-0 left-0 w-24 h-24 bg-accent/5 rounded-full blur-3xl" />
+              
+              <div className="relative flex flex-col md:flex-row items-center gap-8">
+                <motion.div
+                  whileHover={{ rotate: 360 }}
+                  transition={{ duration: 0.8 }}
+                  className="shrink-0"
+                >
+                  <div className="h-28 w-28 rounded-full border-2 border-accent/50 bg-secondary/50 flex items-center justify-center animate-glow-pulse">
+                    <Bug className="h-14 w-14 text-accent" />
+                  </div>
+                </motion.div>
+                <div className="text-center md:text-left flex-1">
+                  <h3 className="text-2xl font-black text-accent font-mono mb-1">
+                    Cynsys
+                  </h3>
+                  <p className="text-muted-foreground mb-4">
+                    Security Researcher & Developer
+                  </p>
+                  <p className="text-sm text-foreground/70 leading-relaxed mb-6">
+                    Bug hunter and programmer with a sharp eye for finding vulnerabilities. A key contributor to the Rakhnegah team, bringing hands-on experience in security research and development.
+                  </p>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
+                    {[
+                      { icon: Search, label: "Bug Hunter" },
+                      { icon: Code, label: "Programmer" },
+                      { icon: Shield, label: "Security Researcher" },
+                    ].map((skill) => (
+                      <motion.span
+                        key={skill.label}
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs font-mono text-accent cursor-default"
+                      >
+                        <skill.icon className="h-3 w-3" />
+                        {skill.label}
+                      </motion.span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.div>
