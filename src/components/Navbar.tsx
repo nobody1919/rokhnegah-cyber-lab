@@ -1,6 +1,6 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail, Settings, Map } from "lucide-react";
+import { LogOut, Trophy, LayoutDashboard, FlaskConical, Info, Mail, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import logo from "@/assets/logo.png";
 
@@ -52,12 +52,6 @@ export default function Navbar() {
               </span>
             </Button>
           </button>
-          <Link to="/roadmap">
-            <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground">
-              <Map className="h-4 w-4" />
-              <span className="hidden sm:inline">Roadmap</span>
-            </Button>
-          </Link>
 
           {user ? (
             <>
