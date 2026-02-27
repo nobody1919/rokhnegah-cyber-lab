@@ -18,7 +18,7 @@ import AdminUsers from "./pages/AdminUsers";
 import AdminLabs from "./pages/AdminLabs";
 import AdminSubmissions from "./pages/AdminSubmissions";
 import AdminMessages from "./pages/AdminMessages";
-
+import Roadmap from "./pages/Roadmap";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,7 +38,7 @@ const App = () => (
             <Route path="/labs/:categoryId" element={<Labs />} />
             <Route path="/lab/:labId" element={<ProtectedRoute><LabDetail /></ProtectedRoute>} />
             <Route path="/leaderboard" element={<Leaderboard />} />
-            
+            <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/admin/login" element={<AdminLogin />} />
             <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
             <Route path="/admin/users" element={<AdminRoute><AdminUsers /></AdminRoute>} />
