@@ -77,24 +77,33 @@ export type Database = {
       lab_instances: {
         Row: {
           completed_at: string | null
+          expires_at: string | null
           id: string
           lab_id: string
+          last_seen_at: string | null
+          progress: Json | null
           started_at: string
           status: string
           user_id: string
         }
         Insert: {
           completed_at?: string | null
+          expires_at?: string | null
           id?: string
           lab_id: string
+          last_seen_at?: string | null
+          progress?: Json | null
           started_at?: string
           status?: string
           user_id: string
         }
         Update: {
           completed_at?: string | null
+          expires_at?: string | null
           id?: string
           lab_id?: string
+          last_seen_at?: string | null
+          progress?: Json | null
           started_at?: string
           status?: string
           user_id?: string

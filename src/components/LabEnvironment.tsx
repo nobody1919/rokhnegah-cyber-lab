@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Terminal, AlertTriangle, Shield, BookOpen, Zap } from "lucide-react";
+import { Terminal, AlertTriangle, Shield, BookOpen, Zap, Rocket } from "lucide-react";
 import {
   XSSEventHandlerLab, XSSFilterBypassLab, XSSAttributeLab, XSSJSContextLab,
   XSSCookieStealLab, XSSPolyglotLab, XSSBlindLab,
@@ -58,9 +58,12 @@ export default function LabEnvironment({ labType, onFlagFound }: LabEnvironmentP
     case "cmd_filter_bypass": return <CmdFilterBypassLab onFlagFound={onFlagFound} />;
     default:
       return (
-        <div className="cyber-card p-6 text-center text-muted-foreground">
-          <Terminal className="mx-auto mb-3 h-8 w-8" />
-          <p>No simulation environment available for this lab.</p>
+        <div className="cyber-card p-6 text-center">
+          <Rocket className="mx-auto mb-3 h-8 w-8 text-primary" />
+          <h3 className="text-lg font-bold mb-2 text-foreground">Coming Soon</h3>
+          <p className="text-muted-foreground text-sm">
+            The interactive simulation for this lab is under development. You can still solve the challenge using the objective and hints provided!
+          </p>
         </div>
       );
   }

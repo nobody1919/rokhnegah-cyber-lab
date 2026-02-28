@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Labs from "./pages/Labs";
 import LabDetail from "./pages/LabDetail";
+import LabInstance from "./pages/LabInstance";
 import Leaderboard from "./pages/Leaderboard";
 import AdminLogin from "./pages/AdminLogin";
 import AdminPanel from "./pages/AdminPanel";
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/labs" element={<Labs />} />
             <Route path="/labs/:categoryId" element={<Labs />} />
             <Route path="/lab/:labId" element={<ProtectedRoute><LabDetail /></ProtectedRoute>} />
+            <Route path="/lab/:labId/instance/:instanceId" element={<ProtectedRoute><LabInstance /></ProtectedRoute>} />
             <Route path="/leaderboard" element={<Leaderboard />} />
             <Route path="/roadmap" element={<Roadmap />} />
             <Route path="/admin/login" element={<AdminLogin />} />
