@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import Navbar from "@/components/Navbar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Flag, Lightbulb, Eye, EyeOff, Play, CheckCircle2, XCircle } from "lucide-react";
-import LabEnvironment from "@/components/LabEnvironment";
+import { Flag, Lightbulb, Eye, EyeOff, Play, CheckCircle2, RotateCcw, ArrowRight } from "lucide-react";
 
 interface Lab {
   id: string;
@@ -21,7 +19,6 @@ interface Lab {
   points: number;
   hint: string | null;
   solution: string | null;
-  flag: string;
   lab_type: string | null;
   category_id: string;
 }
@@ -45,112 +42,93 @@ const diffLabel: Record<string, string> = {
 
 export default function LabDetail() {
   const { labId } = useParams();
-  const { user, refreshProfile } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [lab, setLab] = useState<Lab | null>(null);
-  const [instance, setInstance] = useState<LabInstance | null>(null);
-  const [flagInput, setFlagInput] = useState("");
+  const [activeInstance, setActiveInstance] = useState<LabInstance | null>(null);
+  const [hasSolved, setHasSolved] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState<"correct" | "wrong" | null>(null);
+  const [starting, setStarting] = useState(false);
 
   useEffect(() => {
     if (!labId) return;
-    supabase.from("labs").select("*").eq("id", labId).single().then(({ data }) => {
-      if (data) {
-        setLab({ ...(data as any), flag: "" });
-      }
-    });
+    supabase
+      .from("labs")
+      .select("id, title, title_fa, description, objective, difficulty, points, hint, solution, lab_type, category_id")
+      .eq("id", labId)
+      .single()
+      .then(({ data }) => {
+        if (data) setLab(data as Lab);
+      });
   }, [labId]);
 
   useEffect(() => {
     if (!user || !labId) return;
+
+    // Check for active instance
     supabase
       .from("lab_instances")
-      .select("*")
+      .select("id, status")
       .eq("user_id", user.id)
       .eq("lab_id", labId)
-      .maybeSingle()
-      .then(({ data }) => setInstance(data as LabInstance | null));
+      .eq("status", "in_progress")
+      .order("started_at", { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        setActiveInstance(data?.[0] as LabInstance | null);
+      });
+
+    // Check if solved
+    supabase
+      .from("lab_instances")
+      .select("id")
+      .eq("user_id", user.id)
+      .eq("lab_id", labId)
+      .eq("status", "completed")
+      .limit(1)
+      .then(({ data }) => {
+        setHasSolved((data?.length ?? 0) > 0);
+      });
   }, [user, labId]);
 
-  const startLab = async () => {
+  const startNewInstance = async () => {
     if (!user || !labId) {
       navigate("/auth");
       return;
     }
+    setStarting(true);
+
+    // Expire previous active instances
+    await supabase
+      .from("lab_instances")
+      .update({ status: "expired" })
+      .eq("user_id", user.id)
+      .eq("lab_id", labId)
+      .eq("status", "in_progress");
+
+    // Create new instance
     const { data, error } = await supabase
       .from("lab_instances")
       .insert({ user_id: user.id, lab_id: labId })
       .select()
       .single();
+
     if (error) {
-      if (error.code === "23505") {
-        const { data: existing } = await supabase
-          .from("lab_instances")
-          .select("*")
-          .eq("user_id", user.id)
-          .eq("lab_id", labId)
-          .single();
-        setInstance(existing as LabInstance);
-      } else {
-        toast({ title: "Error", description: error.message, variant: "destructive" });
-      }
-    } else {
-      setInstance(data as LabInstance);
-      toast({ title: "Lab Started!", description: "Your dedicated environment has been created." });
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+      setStarting(false);
+      return;
     }
+
+    toast({ title: "Lab Started!", description: "Your dedicated environment has been created." });
+    navigate(`/lab/${labId}/instance/${data.id}`);
   };
 
-  const submitFlag = async () => {
-    if (!user || !instance || !labId || !flagInput.trim()) return;
-    setSubmitting(true);
-    setResult(null);
-
-    const { data: labData } = await supabase
-      .from("labs")
-      .select("flag, points")
-      .eq("id", labId)
-      .single();
-
-    const isCorrect = labData?.flag === flagInput.trim();
-
-    await supabase.from("submissions").insert({
-      user_id: user.id,
-      lab_id: labId,
-      lab_instance_id: instance.id,
-      submitted_flag: flagInput.trim(),
-      is_correct: isCorrect,
-    });
-
-    if (isCorrect) {
-      setResult("correct");
-      await supabase
-        .from("lab_instances")
-        .update({ status: "completed", completed_at: new Date().toISOString() })
-        .eq("id", instance.id);
-      setInstance({ ...instance, status: "completed" });
-
-      const { data: profile } = await supabase
-        .from("profiles")
-        .select("points")
-        .eq("user_id", user.id)
-        .single();
-      if (profile) {
-        await supabase
-          .from("profiles")
-          .update({ points: (profile as any).points + (labData?.points ?? 0) })
-          .eq("user_id", user.id);
-      }
-      await refreshProfile();
-      toast({ title: "🎉 Congratulations!", description: `Correct flag! You earned ${labData?.points} points.` });
-    } else {
-      setResult("wrong");
-      toast({ title: "❌ Wrong Flag", description: "Try again.", variant: "destructive" });
+  const resumeInstance = () => {
+    if (activeInstance && labId) {
+      navigate(`/lab/${labId}/instance/${activeInstance.id}`);
     }
-    setSubmitting(false);
   };
 
   if (!lab) {
@@ -163,8 +141,6 @@ export default function LabDetail() {
       </div>
     );
   }
-
-  const isCompleted = instance?.status === "completed";
 
   return (
     <div className="min-h-screen cyber-gradient cyber-grid">
@@ -185,7 +161,7 @@ export default function LabDetail() {
                 <Badge variant="outline" className="border-primary/30 text-primary font-mono">
                   {lab.points} pts
                 </Badge>
-                {isCompleted && (
+                {hasSolved && (
                   <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
                     ✓ Solved
                   </Badge>
@@ -205,65 +181,38 @@ export default function LabDetail() {
             </div>
           )}
 
-          {/* Start Lab / Submit Flag */}
+          {/* Actions */}
           <div className="cyber-card p-6 mb-4">
-            {!instance ? (
-              <div className="text-center py-4">
-                <p className="mb-4 text-muted-foreground">Click the button below to start the lab</p>
-                <Button onClick={startLab} className="glow-primary gap-2" size="lg">
-                  <Play className="h-5 w-5" />
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              {activeInstance ? (
+                <>
+                  <Button onClick={resumeInstance} className="glow-primary gap-2 w-full sm:w-auto" size="lg">
+                    <ArrowRight className="h-5 w-5" />
+                    Resume Last Instance
+                  </Button>
+                  <Button onClick={startNewInstance} variant="outline" className="gap-2 w-full sm:w-auto" size="lg" disabled={starting}>
+                    <RotateCcw className="h-5 w-5" />
+                    Start New Instance
+                  </Button>
+                </>
+              ) : (
+                <Button onClick={startNewInstance} className="glow-primary gap-2 w-full sm:w-auto" size="lg" disabled={starting}>
+                  {starting ? (
+                    <div className="h-5 w-5 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
+                  ) : (
+                    <Play className="h-5 w-5" />
+                  )}
                   Start Lab
                 </Button>
-              </div>
-            ) : isCompleted ? (
-              <div className="flex items-center gap-3 text-accent">
-                <CheckCircle2 className="h-6 w-6" />
-                <div>
-                  <p className="font-bold">You have successfully solved this lab!</p>
-                  <p className="text-sm text-muted-foreground">You can view the solution below.</p>
-                </div>
-              </div>
-            ) : (
-              <div>
-                <h2 className="mb-3 text-sm font-bold text-primary flex items-center gap-2">
-                  <Flag className="h-4 w-4" /> Submit Flag
-                </h2>
-                <div className="flex gap-2">
-                  <Input
-                    value={flagInput}
-                    onChange={(e) => setFlagInput(e.target.value)}
-                    placeholder="FLAG{...}"
-                    className="font-mono bg-background/50 border-border/50 focus:border-primary"
-                    dir="ltr"
-                    onKeyDown={(e) => e.key === "Enter" && submitFlag()}
-                  />
-                  <Button onClick={submitFlag} disabled={submitting || !flagInput.trim()} className="glow-primary shrink-0">
-                    {submitting ? (
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
-                    ) : (
-                      "Submit"
-                    )}
-                  </Button>
-                </div>
-                {result === "wrong" && (
-                  <div className="mt-3 flex items-center gap-2 text-destructive text-sm">
-                    <XCircle className="h-4 w-4" />
-                    Incorrect flag. Try again.
-                  </div>
-                )}
-              </div>
+              )}
+            </div>
+            {hasSolved && (
+              <p className="mt-3 text-sm text-accent flex items-center gap-2">
+                <CheckCircle2 className="h-4 w-4" />
+                You've already solved this lab. You can start a new instance to practice again.
+              </p>
             )}
           </div>
-
-          {/* Lab Environment */}
-          {instance && !isCompleted && (
-            <div className="mb-4">
-              <LabEnvironment
-                labType={lab.lab_type}
-                onFlagFound={(flag) => setFlagInput(flag)}
-              />
-            </div>
-          )}
 
           {/* Hint */}
           {lab.hint && (
@@ -282,8 +231,8 @@ export default function LabDetail() {
             </div>
           )}
 
-          {/* Solution */}
-          {lab.solution && isCompleted && (
+          {/* Solution - only if solved */}
+          {lab.solution && hasSolved && (
             <div className="cyber-card p-5">
               <button
                 onClick={() => setShowSolution(!showSolution)}

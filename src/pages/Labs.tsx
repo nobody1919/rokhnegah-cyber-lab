@@ -59,6 +59,7 @@ export default function Labs() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [labs, setLabs] = useState<Lab[]>([]);
   const [completedLabs, setCompletedLabs] = useState<Set<string>>(new Set());
+  const [inProgressLabs, setInProgressLabs] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     supabase.from("lab_categories").select("*").order("sort_order").then(({ data }) => {
@@ -76,8 +77,15 @@ export default function Labs() {
 
   useEffect(() => {
     if (user) {
-      supabase.from("lab_instances").select("lab_id").eq("user_id", user.id).eq("status", "completed").then(({ data }) => {
-        setCompletedLabs(new Set((data ?? []).map((d: any) => d.lab_id)));
+      supabase.from("lab_instances").select("lab_id, status").eq("user_id", user.id).then(({ data }) => {
+        const completed = new Set<string>();
+        const active = new Set<string>();
+        (data ?? []).forEach((d: any) => {
+          if (d.status === "completed") completed.add(d.lab_id);
+          else if (d.status === "in_progress") active.add(d.lab_id);
+        });
+        setCompletedLabs(completed);
+        setInProgressLabs(active);
       });
     }
   }, [user]);
@@ -154,11 +162,15 @@ export default function Labs() {
                         <Badge variant="outline" className={diffBadge[lab.difficulty]}>
                           {diffLabel[lab.difficulty] ?? lab.difficulty}
                         </Badge>
-                        {completedLabs.has(lab.id) && (
+                        {completedLabs.has(lab.id) ? (
                           <Badge variant="outline" className="bg-accent/10 text-accent border-accent/30">
                             ✓ Solved
                           </Badge>
-                        )}
+                        ) : inProgressLabs.has(lab.id) ? (
+                          <Badge variant="outline" className="bg-cyber-yellow/10 text-cyber-yellow border-cyber-yellow/30">
+                            ⏳ In Progress
+                          </Badge>
+                        ) : null}
                       </div>
                       {lab.title_fa && (
                         <p className="text-sm text-muted-foreground">{lab.title_fa}</p>
