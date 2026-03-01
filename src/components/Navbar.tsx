@@ -101,7 +101,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop nav */}
-        <div className="hidden md:flex items-center gap-1">
+        <div className="flex items-center gap-1 max-[768px]:hidden">
           <button onClick={() => scrollTo("about")}>
             <Button variant="ghost" size="sm" className="gap-2 text-muted-foreground hover:text-foreground" asChild>
               <span><Info className="h-4 w-4" /> About</span>
